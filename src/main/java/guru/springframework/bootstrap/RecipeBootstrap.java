@@ -4,15 +4,18 @@ import guru.springframework.domain.*;
 import guru.springframework.repositories.CategoryRepository;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Component
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -27,7 +30,10 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     }
 
     @Override
+    @Transactional
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+
+        log.debug("Loading bootstrap data...");
 
         // Bootstrap recipes
         recipeRepository.saveAll(getRecipes());
@@ -125,7 +131,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
                 "\n" +
                 "\n" +
                 "Read more: http://www.simplyrecipes.com/recipes/perfect_guacamole/#ixzz4jvoun5ws");
-        guacNotes.setRecipe(guacRecipe);
+//        guacNotes.setRecipe(guacRecipe);
         guacRecipe.setNotes(guacNotes);
 
         guacRecipe.getIngredients().add(new Ingredient("ripe avocados", new BigDecimal(2), eachUom, guacRecipe));
@@ -172,7 +178,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
                 "\n" +
                 "\n" +
                 "Read more: http://www.simplyrecipes.com/recipes/spicy_grilled_chicken_tacos/#ixzz4jvu7Q0MJ");
-        tacoNotes.setRecipe(tacosRecipe);
+//        tacoNotes.setRecipe(tacosRecipe);
         tacosRecipe.setNotes(tacoNotes);
 
 
